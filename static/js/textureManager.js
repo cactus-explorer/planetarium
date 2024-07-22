@@ -47,7 +47,6 @@ function paint(e) {
     const rect = textureCanvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / textureCanvas.getBoundingClientRect().width * textureCanvas.width;
     const y = (e.clientY - rect.top) / textureCanvas.getBoundingClientRect().width * textureCanvas.width;
-    console.log(textureCanvas.getBoundingClientRect().width, textureCanvas.width);
 
     // Set brush color and draw a circle
     ctx.fillStyle = colorPicker.value;

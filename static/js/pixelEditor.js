@@ -38,9 +38,9 @@ function addClickListener(canvas, gridIndex) {
 }
 
 const canvases = [
-    document.getElementById('pixelCanvas1'),
+    document.getElementById('pixelCanvas3'),
     document.getElementById('pixelCanvas2'),
-    document.getElementById('pixelCanvas3')
+    document.getElementById('pixelCanvas1')
 ];
 
 canvases.forEach((canvas, index) => {

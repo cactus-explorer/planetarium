@@ -77,6 +77,8 @@ function init() {
         drawButton.classList.remove('active');
         eraseButton.classList.add('active');
     });
+
+    restore();
 }
 
 function onMouseDown(event) {
@@ -134,7 +136,9 @@ function onClick(event) {
         let newGroup = group.clone(true);
         newGroup.isStuck = true;
         sphere.add(newGroup);
-        newGroup.position.copy(sphere.worldToLocal(intersects[0].point));
+        let coords = sphere.worldToLocal(intersects[0].point);
+        newGroup.position.copy(coords);
+        log(coords);
         newGroup.lookAt(new THREE.Vector3(0, 0, 0));
         newGroup.rotateX(-Math.PI / 2);
         newGroup.translateY(.7 * size);
