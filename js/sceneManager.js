@@ -1,70 +1,3 @@
-// Create initial texture
-const textureSize = 4096;
-const canvas2 = document.getElementById('textureCanvas');
-canvas2.width = textureSize;
-canvas2.height = textureSize;
-const ctx = canvas2.getContext('2d');
-const img = '';
-
-const image = new Image(); // Using optional size for image
-
-// Load an image of intrinsic size 300x227 in CSS pixels
-image.src = "http://localhost:8000/textures/planet.jpg";
-
-ctx.drawImage(image, 0, 0, textureSize, textureSize );
-
-// ctx.scale(32, 32);
-
-const texture = new THREE.CanvasTexture(canvas2);
-
-const material = new THREE.MeshBasicMaterial({ map: texture });
-
-// Set up painting
-const textureCanvas = document.getElementById('textureCanvas');
-const textureCtx = textureCanvas.getContext('2d');
-textureCtx.drawImage(canvas2, 0, 0);
-
-const colorPicker = document.getElementById('texColorPicker');
-const brushSize = document.getElementById('brushSize');
-
-let painting = false;
-
-textureCanvas.addEventListener('mousedown', startPainting);
-textureCanvas.addEventListener('mouseup', stopPainting);
-textureCanvas.addEventListener('mousemove', paint);
-
-function startPainting(e) {
-    painting = true;
-    paint(e);
-}
-
-function stopPainting() {
-    painting = false;
-}
-
-function paint(e) {
-    // Exit function if not painting
-    if (!painting) return;
-
-    // Get canvas bounds and calculate x and y coordinates
-    const rect = textureCanvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / canvas2.getBoundingClientRect().width * canvas2.width;
-    const y = (e.clientY - rect.top) / canvas2.getBoundingClientRect().width * canvas2.width;
-    console.log(canvas2.getBoundingClientRect().width, canvas2.width);
-
-    // Set brush color and draw a circle
-    ctx.fillStyle = colorPicker.value;
-    ctx.beginPath();
-    ctx.arc(x, y, brushSize.value, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Update texture
-    textureCtx.drawImage(canvas2, 0, 0, textureSize, textureSize);
-    texture.needsUpdate = true;
-}
-
-
-
 let scene, camera, renderer, sphere, followingCube, skybox;
 let isDragging = false;
 let isStuck = false;
@@ -206,7 +139,6 @@ function onClick(event) {
             newGroup.lookAt(new THREE.Vector3(0, 0, 0));
             newGroup.rotateX(-Math.PI / 2);
             newGroup.translateY(.7 * size);
-            console.log(size);
         
     } else if (intersectCube.length > 0 && isStuck) {
         isStuck = false;
@@ -240,117 +172,6 @@ function updateCubeSize(event) {
     group.scale.set(size, size, size);
 }
 
-init();
-animate();
-
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-
-const pixelSize = 20;  // Increased pixel size for better visibility
-const gridSize = 5;    // Changed to 5x5 grid
-
-// Initialize grids
-let grids = [
-    Array(gridSize).fill().map(() => Array(gridSize).fill('#000000')),
-    Array(gridSize).fill().map(() => Array(gridSize).fill('#000000')),
-    Array(gridSize).fill().map(() => Array(gridSize).fill('#000000'))
-];
-
-// Initialize color picker
-let currentColor = '#ffffff';
-
-// Draw grid function
-function drawGrid(canvas, grid) {
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < gridSize; i++) {
-        for (let j = 0; j < gridSize; j++) {
-            ctx.fillStyle = grid[i][j];
-            ctx.fillRect(i * pixelSize, j * pixelSize, pixelSize, pixelSize);
-            ctx.strokeRect(i * pixelSize, j * pixelSize, pixelSize, pixelSize);
-        }
-    }
-}
-
-// Handle click events on the canvases
-function addClickListener(canvas, gridIndex) {
-    canvas.addEventListener('click', (event) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = Math.floor((event.clientX - rect.left) / pixelSize);
-        const y = Math.floor((event.clientY - rect.top) / pixelSize);
-        if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
-            grids[gridIndex][x][y] = eraseMode ? '#000000' : currentColor;  // Set pixel to white if erasing, otherwise current color
-            drawGrid(canvas, grids[gridIndex]);
-            generate3DModel();  // Update 3D model immediately
-        }
-    });
-}
-
-// Set up canvases
-const canvases = [
-    document.getElementById('pixelCanvas1'),
-    document.getElementById('pixelCanvas2'),
-    document.getElementById('pixelCanvas3')
-];
-
-canvases.forEach((canvas, index) => {
-    drawGrid(canvas, grids[index]);
-    addClickListener(canvas, index);
-});
-
-// Add ambient light
-const ambientLight = new THREE.AmbientLight(0x404040);
-scene.add(ambientLight);
-
-// Add directional light
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-directionalLight.position.set(1, 1, 1);
-scene.add(directionalLight);
-
-let animationId;
-
-
-
-// Generate 3D model from pixel grids
-function generate3DModel() {
-    group.clear();
-    // scene.add(ambientLight);
-    // scene.add(directionalLight);
-    
-    const geometry = new THREE.BoxGeometry(.03, .03, .03);
-
-    for (let z = 0; z < 3; z++) {
-        for (let x = 0; x < gridSize; x++) {
-            for (let y = 0; y < gridSize; y++) {
-                const color = grids[z][x][y];
-                if (color !== '#000000') {
-                    const material = new THREE.MeshPhongMaterial({ color: color });
-                    const cube = new THREE.Mesh(geometry, material);
-                    cube.position.set(scale(x - gridSize/2 + 0.5), scale(-y + gridSize/2 - 0.5), scale(-z + 1));
-                    
-                    scene.remove(group);
-                    group.add(cube);
-                    scene.add(group);
-                }
-            }
-        }
-    }
-}
-
-// Add eraseMode variable
-let eraseMode = false;
-
-// Initial 3D model generation
-generate3DModel();
-
-function scale(num) {
-    return num * .03;
-}
-
 function updateFollowingCube() {
     if (!isStuck) {
         raycaster.setFromCamera(mouse, camera);
@@ -374,4 +195,3 @@ function updateFollowingCube() {
     group.lookAt(new THREE.Vector3(0, 0, 0));
     group.rotateX(-Math.PI / 2); // Rotate 180 degrees to face outward
 }
-
