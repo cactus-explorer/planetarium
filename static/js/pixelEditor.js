@@ -1,3 +1,5 @@
+window.addEventListener('load', function () {
+  
 const pixelSize = 20;
 const gridSize = 5;
 
@@ -7,7 +9,7 @@ let grids = [
     Array(gridSize).fill().map(() => Array(gridSize).fill('#000000'))
 ];
 
-let currentColor = '#ffffff';
+let currentColor = '#7393B3';
 let eraseMode = false;
 
 function drawGrid(canvas, grid) {
@@ -76,4 +78,5 @@ function scale(num) {
 }
 
 // Initial 3D model generation
-generate3DModel();
+    generate3DModel();
+})

@@ -3,6 +3,8 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+window.addEventListener('load', function () {
 
-init();
-animate();
+    init();
+    animate();
+});

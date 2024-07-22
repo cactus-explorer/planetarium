@@ -29,9 +29,6 @@ function init() {
     scene.add(directionalLight);
 
     const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-    // const material = new THREE.MeshBasicMaterial({
-    //     map: new THREE.TextureLoader().load('http://localhost:8000/textures/planet.jpg'),
-    // });
     sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
@@ -47,8 +44,10 @@ function init() {
     // Create and add skybox
     const skyboxGeometry = new THREE.SphereGeometry(1000, 32, 32);
     const skyboxMaterials = new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load('http://localhost:8000/textures/skybox.jpg')
+        map: new THREE.TextureLoader().load('static/textures/skybox.jpg')
     });
+/*    const skyboxMaterials = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+*/
     skyboxGeometry.scale(-1, 1, 1); // invert the geometry on the x-axis so that all of the faces point inward
     skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterials);
     scene.add(skybox);
@@ -131,15 +130,15 @@ function onClick(event) {
     const intersectCube = raycaster.intersectObject(group, true);
 
     if (!isStuck && intersects.length > 0 && !isStuck && group.children.length > 0) {
-        
-            let newGroup = group.clone(true);
-            newGroup.isStuck = true;
-            sphere.add(newGroup);
-            newGroup.position.copy(sphere.worldToLocal(intersects[0].point));
-            newGroup.lookAt(new THREE.Vector3(0, 0, 0));
-            newGroup.rotateX(-Math.PI / 2);
-            newGroup.translateY(.7 * size);
-        
+
+        let newGroup = group.clone(true);
+        newGroup.isStuck = true;
+        sphere.add(newGroup);
+        newGroup.position.copy(sphere.worldToLocal(intersects[0].point));
+        newGroup.lookAt(new THREE.Vector3(0, 0, 0));
+        newGroup.rotateX(-Math.PI / 2);
+        newGroup.translateY(.7 * size);
+
     } else if (intersectCube.length > 0 && isStuck) {
         isStuck = false;
         scene.add(group);

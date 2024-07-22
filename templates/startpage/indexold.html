@@ -1,0 +1,37 @@
+<title>Cactus To-Do</title>
+<h1>Everyone Loves a Good To-Do List!</h1>
+<h6>The only to-do list around with the cactus in the background!</h6>
+{% load static %}
+<!-- <img src='{% static "my_example.png" %}'' alt="My image"/> -->
+<script src="{% static 'script.js' %}"></script> 
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<form action="" method="post" onkeypress="return event.keyCode != 13;">
+    {% csrf_token %}
+    <ul>
+    {% if latest_task_list %}
+        
+        {% for task in latest_task_list %}
+            
+            <li>
+                <p>{{ task.task_text }} </p>
+                <button onclick="editText( {{ task.pk }}, this )" class="button" name="edit" id="edit" value="{{task.pk}}" type="button"> 
+                    <span class="material-icons">edit</span> 
+                </button>
+                <button class="button" name="key" id="delete" value="{{ task.pk }}" > 
+                    <span class="material-icons">delete</span> 
+                </button>
+            </li>
+        {% endfor %}
+        
+    {% else %} 
+        <p>Your list is empty!</p>
+    {% endif %}
+    </ul>
+    <div class="addTask">
+        <label for="your_name">New Task: </label>
+        <input id="your_name" type="text" name="your_name">
+        <input type="submit" class="material-icons button" value="add"></input>
+    </div>
+</form>

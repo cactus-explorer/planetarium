@@ -1,24 +1,25 @@
+window.addEventListener('load', function () {
+
+
 // Create initial texture
 const textureSize = 4096;
-const canvas2 = document.getElementById('textureCanvas');
-canvas2.width = textureSize;
-canvas2.height = textureSize;
-const ctx = canvas2.getContext('2d');
-const img = '';
+const textureCanvas = document.getElementById('textureCanvas');
+textureCanvas.width = textureSize;
+textureCanvas.height = textureSize;
+const ctx = textureCanvas.getContext('2d');
 
 const image = new Image();
-image.src = "http://localhost:8000/textures/planet.jpg";
+image.src = "static/textures/planet.jpg";
 
 ctx.drawImage(image, 0, 0, textureSize, textureSize );
 
-const texture = new THREE.CanvasTexture(canvas2);
+const texture = new THREE.CanvasTexture(textureCanvas);
 
-const material = new THREE.MeshBasicMaterial({ map: texture });
+material = new THREE.MeshBasicMaterial({ map: texture });
 
 // Set up painting
-const textureCanvas = document.getElementById('textureCanvas');
 const textureCtx = textureCanvas.getContext('2d');
-textureCtx.drawImage(canvas2, 0, 0);
+    textureCtx.drawImage(textureCanvas, 0, 0);
 
 const colorPicker = document.getElementById('texColorPicker');
 const brushSize = document.getElementById('brushSize');
@@ -44,9 +45,9 @@ function paint(e) {
 
     // Get canvas bounds and calculate x and y coordinates
     const rect = textureCanvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / canvas2.getBoundingClientRect().width * canvas2.width;
-    const y = (e.clientY - rect.top) / canvas2.getBoundingClientRect().width * canvas2.width;
-    console.log(canvas2.getBoundingClientRect().width, canvas2.width);
+    const x = (e.clientX - rect.left) / textureCanvas.getBoundingClientRect().width * textureCanvas.width;
+    const y = (e.clientY - rect.top) / textureCanvas.getBoundingClientRect().width * textureCanvas.width;
+    console.log(textureCanvas.getBoundingClientRect().width, textureCanvas.width);
 
     // Set brush color and draw a circle
     ctx.fillStyle = colorPicker.value;
@@ -55,6 +56,7 @@ function paint(e) {
     ctx.fill();
 
     // Update texture
-    textureCtx.drawImage(canvas2, 0, 0, textureSize, textureSize);
+    textureCtx.drawImage(textureCanvas, 0, 0, textureSize, textureSize);
     texture.needsUpdate = true;
-}
+    }
+})
