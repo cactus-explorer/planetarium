@@ -1,10 +1,9 @@
 // Create initial texture
-const textureSize = 200;
+const textureSize = 4096;
 const canvas2 = document.getElementById('textureCanvas');
 canvas2.width = textureSize;
 canvas2.height = textureSize;
 const ctx = canvas2.getContext('2d');
-// ctx.scale(1/16, 1/16);
 const img = '';
 
 const image = new Image(); // Using optional size for image
@@ -12,8 +11,9 @@ const image = new Image(); // Using optional size for image
 // Load an image of intrinsic size 300x227 in CSS pixels
 image.src = "http://localhost:8000/textures/planet.jpg";
 
-ctx.drawImage(image, 0, 0, 4096, 4096);
+ctx.drawImage(image, 0, 0, textureSize, textureSize );
 
+// ctx.scale(32, 32);
 
 const texture = new THREE.CanvasTexture(canvas2);
 
@@ -43,16 +43,22 @@ function stopPainting() {
 }
 
 function paint(e) {
+    // Exit function if not painting
     if (!painting) return;
+
+    // Get canvas bounds and calculate x and y coordinates
     const rect = textureCanvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (textureSize / textureSize);
-    const y = (e.clientY - rect.top) * (textureSize / textureSize);
-    
+    const x = (e.clientX - rect.left) / canvas2.getBoundingClientRect().width * canvas2.width;
+    const y = (e.clientY - rect.top) / canvas2.getBoundingClientRect().width * canvas2.width;
+    console.log(canvas2.getBoundingClientRect().width, canvas2.width);
+
+    // Set brush color and draw a circle
     ctx.fillStyle = colorPicker.value;
     ctx.beginPath();
-    ctx.arc(x, y, brushSize.value * (textureSize / textureSize), 0, Math.PI * 2);
+    ctx.arc(x, y, brushSize.value, 0, Math.PI * 2);
     ctx.fill();
-    
+
+    // Update texture
     textureCtx.drawImage(canvas2, 0, 0, textureSize, textureSize);
     texture.needsUpdate = true;
 }
