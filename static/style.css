@@ -62,3 +62,44 @@ button {
 #textureCanvas {
   width: 50%;
 }
+
+#editable-text {
+    font-size: 16px;
+    padding: 0px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#editable-text:hover {
+    background-color: #e0e0e0;
+}
+
+#edit-form {
+    display: none;
+}
+
+#edit-input {
+    font-size: 16px;
+    padding: 0px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    width: 190px;
+}
+
+#save-button {
+    left: 200px;
+    font-size: 16px;
+    /*padding: 10px 20px;*/
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#save-button:hover {
+    background-color: #45a049;
+}

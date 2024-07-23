@@ -5,14 +5,22 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="{% static 'js/saving.js' %}"></script>
     <script src="{% static 'js/textureManager.js' %}"></script>
     <script src="{% static 'js/sceneManager.js' %}"></script>
     <script src="{% static 'js/pixelEditor.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/saving.js' %}"></script>
+    <script src="{% static 'js/ui.js' %}"></script>
 </head>
 <body>
-    <div id="info">Planetarium by Cole Barker</div>
+    <div id="info">
+        <div>Planetarium by Cole Barker</div>
+        <div id="editable-text">Click to Name Planet</div>
+        <form id="edit-form">
+            <input type="text" id="edit-input" name="text">
+            <button type="submit" id="save-button">Save</button>
+        </form>
+    </div>
     <div id="optionsPanel">
         <label>
             Sphere Color:

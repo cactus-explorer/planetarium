@@ -27,3 +27,15 @@ function restore() {
         newObj.translateY(.7 * size);
     }
 }
+
+function saveName(title) {
+    localStorage.setItem("title", title);
+}
+
+function getName() {
+    title = localStorage.getItem("title");
+    if (title == null)
+        return "Click to Name Planet";
+
+    return title;
+}

@@ -6,6 +6,8 @@ To do:
 - Make button to grab other's worlds from server
 - Add world stats
 - Make API to access world stats
+- Store data in encrypted form
+- Fix missing texture glitch
 
 Potential Goals
 - Save painted world
@@ -13,3 +15,6 @@ Potential Goals
 - Add copy protection to worlds
 - Add object limit
 - Make more efficient saves
+- Add accounts
+- Double check files are within parameters before saving
+- Exception Management?
