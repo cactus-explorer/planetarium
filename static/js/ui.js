@@ -3,7 +3,11 @@ function ui() {
     const editForm = document.getElementById('edit-form');
     const editInput = document.getElementById('edit-input');
 
-    editableText.textContent = getName();
+    planetName = getName();
+    console.log(getName());
+    planetName = planetName ? planetName : 'Click to Name Planet';
+
+    editableText.textContent = planetName;
 
     editableText.addEventListener('click', () => {
         editableText.style.display = 'none';
@@ -23,5 +27,15 @@ function ui() {
             saveName(editInput.value.trim());
         editForm.style.display = 'none';
         editableText.style.display = 'block';
+    });
+
+    const save = document.getElementById('save');
+    save.addEventListener('click', () => {
+        saveWorld();
+    });
+
+    const load = document.getElementById('load');
+    load.addEventListener('click', () => {
+        downloadWorld();
     });
 }

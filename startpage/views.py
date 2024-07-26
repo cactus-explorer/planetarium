@@ -4,48 +4,51 @@ from django.template import loader, Context
 from django.shortcuts import render
 import datetime
 
-from .models import Task
-from .forms import NameForm
+from .models import Planet
 import json
+from django.http import JsonResponse
 
+from datetime import *
+from django.utils import timezone
 
 
 def index(request):
     if request.method == 'POST':
-        form = json.loads(request.body.decode("utf-8"))
+        file = json.loads(request.body.decode("utf-8"))["file"]
         task_id = None
         edited = None
-        newText = form["your_name"]
+        name = file["name"]
+        structures = file["structures"]
 
         if task_id != None:
-            Task.objects.filter(pk=task_id).delete()
+            Planet.objects.filter(pk=task_id).delete()
             return HttpResponseRedirect('')
         elif edited != None:
-            t = Task.objects.get(id=edited)
-            t.task_text = newText  # change field
+            t = Planet.objects.get(id=edited)
+            # t.task_text = newText  # change field
             t.save() # this will update only
-            print(newText)
             return HttpResponseRedirect('')
         else:
-        # check whether it's valid:
-            # if form.is_valid():
-                # process the data in form.cleaned_data as required
-                # ...
-                # redirect to a new URL:
-            # print(form.cleaned_data['your_name'])
-
-                # saveTask = Task(task_text=form.cleaned_data['your_name'], 
-            saveTask = Task(task_text=newText,
-                                pub_date=datetime.datetime.utcnow())
-            saveTask.save()
+            # Add check if valid step
+            savePlanet = Planet(name=name,
+                                structures=structures,
+                                pub_date=timezone.now())
+            savePlanet.save()
                 
             return HttpResponseRedirect('')
-            # else:
-            #     return HttpResponse('Invalid')
     else:
-        template = loader.get_template('startpage/index.html')
-        latest_task_list = Task.objects.order_by('pub_date')
-        context = {
-            'latest_task_list': latest_task_list,
-        }
-        return render(request, 'startpage/index.html', context)
+        query = request.GET.get('w')
+        if (query == None):
+            # template = loader.get_template('startpage/index.html')
+            # latest_task_list = Planet.objects.order_by('pub_date')
+            # context = {
+            #     'latest_task_list': latest_task_list,
+            # }
+            return render(request, 'startpage/index.html')
+        else:
+            planetDict = {}
+            planet = Planet.objects.get(name=query)
+            planetDict["name"] = planet.name;
+            planetDict["structures"] = planet.structures;
+            return JsonResponse(planetDict, safe=True)
+           

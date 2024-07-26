@@ -33,9 +33,18 @@ function saveName(title) {
 }
 
 function getName() {
-    title = localStorage.getItem("title");
-    if (title == null)
-        return "Click to Name Planet";
+    return localStorage.getItem("title");
+}
 
-    return title;
+function getFile() {
+    const file = {};
+    file.name = getName();
+    file.structures = localStorage.getItem("structures");
+    return file;
+}
+
+function loadWorld(file) {
+    localStorage.setItem("structures", file.structures);
+    // TODO: clear();
+    restore();
 }
