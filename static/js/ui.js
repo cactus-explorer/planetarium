@@ -4,7 +4,6 @@ function ui() {
     const editInput = document.getElementById('edit-input');
 
     planetName = getName();
-    console.log(getName());
     planetName = planetName ? planetName : 'Click to Name Planet';
 
     editableText.textContent = planetName;
@@ -34,8 +33,35 @@ function ui() {
         saveWorld();
     });
 
-    const load = document.getElementById('load');
-    load.addEventListener('click', () => {
-        downloadWorld();
+    const mainButton = document.getElementById('mainButton');
+    const inputContainer = document.getElementById('inputContainer');
+    const textField = document.getElementById('textField');
+    const submitButton = document.getElementById('load');
+
+    mainButton.addEventListener('click', () => {
+        mainButton.style.display = 'none';
+        inputContainer.style.display = 'inline-block';
+        textField.focus();
+    });
+
+    submitButton.addEventListener('click', async () => {
+        const text = textField.value.trim();
+        if (text) {
+            textField.value = '';
+            inputContainer.style.display = 'none';
+            mainButton.style.display = 'inline-block';
+            downloadWorld(text);
+
+            
+        } else {
+            alert('Please enter some text before submitting.');
+        }
+    });
+
+    textField.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            submitButton.click();
+        }
     });
 }
+

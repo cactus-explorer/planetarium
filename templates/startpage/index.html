@@ -1,7 +1,7 @@
 <html>
     {% load static %}
 <head>
-    <title>Planetarium by Cole Barker</title>
+    <title>Planetarium</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
@@ -25,7 +25,13 @@
     </div>
     <div id="optionsPanel">
         <button id="save">Save</button>
-        <button id="load">Load</button>
+        <div id="container">
+            <button id="mainButton">Load</button>
+            <div id="inputContainer">
+                <input type="text" id="textField" placeholder="Enter planet to load...">
+                <button id="load">Submit</button>
+            </div>
+        </div>
         <button id="clear">Clear</button>
 
        <hr>

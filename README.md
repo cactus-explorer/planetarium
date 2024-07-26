@@ -1,8 +1,7 @@
 HTML Canvas, Three.js, and eventually database and security practice
 
 To do:
-- Add save button that saves localstorage to server
-- Make button to grab other's worlds from server
+- Add way to share worlds by URL
 - Add world stats
 - Make API to access world stats
 - Store data in encrypted form

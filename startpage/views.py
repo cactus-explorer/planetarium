@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import HttpResponseNotFound
+
 from django.template import loader, Context
 from django.shortcuts import render
 import datetime
@@ -34,8 +36,6 @@ def index(request):
                                 structures=structures,
                                 pub_date=timezone.now())
             savePlanet.save()
-                
-            return HttpResponseRedirect('')
     else:
         query = request.GET.get('w')
         if (query == None):
@@ -46,9 +46,15 @@ def index(request):
             # }
             return render(request, 'startpage/index.html')
         else:
+            planet = {}
+            try:
+                planet = Planet.objects.get(name=query)
+            except Planet.DoesNotExist:
+                return HttpResponseNotFound()   
+            
             planetDict = {}
-            planet = Planet.objects.get(name=query)
             planetDict["name"] = planet.name;
             planetDict["structures"] = planet.structures;
+            print(planetDict["structures"])
             return JsonResponse(planetDict, safe=True)
-           
+            

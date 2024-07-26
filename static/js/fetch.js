@@ -10,7 +10,15 @@ function saveWorld() {
     fetch(request);
 }
 
-async function downloadWorld() {
-    response = await fetch("/?w=" + getName());
-    response.json().then((value) => { loadWorld(value) });
+async function downloadWorld(name) {
+    fetch("/?w=" + name)
+        .then((response) => {
+            const mainButton = document.getElementById('mainButton');
+            if (response.ok) {
+                response.json().then((json) => loadWorld(json));
+                mainButton.innerText = "Loaded";
+            }
+            else
+                mainButton.innerText = "Does Not Exist";
+        });
 }

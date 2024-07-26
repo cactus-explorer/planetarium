@@ -103,3 +103,47 @@ button {
 #save-button:hover {
     background-color: #45a049;
 }
+
+
+
+#mainButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    #mainButton:hover {
+        background-color: #45a049;
+    }
+
+#inputContainer {
+    display: none;
+}
+
+#textField {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    width: 200px;
+}
+
+#submitButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#submitButton:hover {
+    background-color: #007B9A;
+}
