@@ -8,4 +8,5 @@ window.addEventListener('load', function () {
     init();
     animate();
     ui();
+    testPost();
 });

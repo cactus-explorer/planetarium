@@ -5,6 +5,8 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    {% csrf_token %}
+    <script src="{% static 'js/fetch.js' %}"></script>
     <script src="{% static 'js/saving.js' %}"></script>
     <script src="{% static 'js/textureManager.js' %}"></script>
     <script src="{% static 'js/sceneManager.js' %}"></script>

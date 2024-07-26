@@ -6,14 +6,16 @@ import datetime
 
 from .models import Task
 from .forms import NameForm
+import json
+
 
 
 def index(request):
     if request.method == 'POST':
-        form = NameForm(request.POST)
-        task_id = request.POST.get("key")
-        edited = request.POST.get("edit")
-        newText = request.POST.get("newText")
+        form = json.loads(request.body.decode("utf-8"))
+        task_id = None
+        edited = None
+        newText = form["your_name"]
 
         if task_id != None:
             Task.objects.filter(pk=task_id).delete()
@@ -26,19 +28,20 @@ def index(request):
             return HttpResponseRedirect('')
         else:
         # check whether it's valid:
-            if form.is_valid():
+            # if form.is_valid():
                 # process the data in form.cleaned_data as required
                 # ...
                 # redirect to a new URL:
-                print(form.cleaned_data['your_name'])
+            # print(form.cleaned_data['your_name'])
 
-                saveTask = Task(task_text=form.cleaned_data['your_name'], 
+                # saveTask = Task(task_text=form.cleaned_data['your_name'], 
+            saveTask = Task(task_text=newText,
                                 pub_date=datetime.datetime.utcnow())
-                saveTask.save()
+            saveTask.save()
                 
-                return HttpResponseRedirect('')
-            else:
-                return HttpResponse('Invalid')
+            return HttpResponseRedirect('')
+            # else:
+            #     return HttpResponse('Invalid')
     else:
         template = loader.get_template('startpage/index.html')
         latest_task_list = Task.objects.order_by('pub_date')

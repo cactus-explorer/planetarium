@@ -1,7 +1,6 @@
 HTML Canvas, Three.js, and eventually database and security practice
 
 To do:
-- Add ability to give world an ID
 - Add save button that saves localstorage to server
 - Make button to grab other's worlds from server
 - Add world stats
