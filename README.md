@@ -5,6 +5,7 @@ To do:
 - Add world stats
 - Make API to access world stats
 - Store data in encrypted form
+- Add clear()
 - Fix missing texture glitch
 
 Potential Goals

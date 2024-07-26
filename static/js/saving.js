@@ -45,6 +45,8 @@ function getFile() {
 
 function loadWorld(file) {
     localStorage.setItem("structures", file.structures);
+    localStorage.setItem("title", file.name);
     // TODO: clear();
+    document.getElementById('editable-text').textContent = file.name;
     restore();
 }
