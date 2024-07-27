@@ -9,7 +9,7 @@ textureCanvas.height = textureSize;
 const ctx = textureCanvas.getContext('2d');
 
 const image = new Image();
-image.src = "static/textures/planet.jpg";
+    image.src = planetTex;
 
 ctx.drawImage(image, 0, 0, textureSize, textureSize );
 

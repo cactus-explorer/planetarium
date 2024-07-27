@@ -44,7 +44,7 @@ function init() {
     // Create and add skybox
     const skyboxGeometry = new THREE.SphereGeometry(1000, 32, 32);
     const skyboxMaterials = new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load('static/textures/skybox.jpg')
+        map: new THREE.TextureLoader().load(skyboxTex)
     });
 /*    const skyboxMaterials = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
 */
@@ -78,7 +78,11 @@ function init() {
         eraseButton.classList.add('active');
     });
 
-    restore();
+    if (loadedStruct) {
+        if (loadedStruct != "empty")
+            restore(JSON.parse(loadedStruct));
+    } else
+        localRestore();
 }
 
 function onMouseDown(event) {

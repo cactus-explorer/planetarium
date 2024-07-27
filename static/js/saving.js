@@ -11,8 +11,11 @@ function log(coords) {
     localStorage.setItem("structures", JSON.stringify(structures));
 }
 
-function restore() {
-    structures = JSON.parse(localStorage.getItem("structures"))
+function localRestore() {
+    restore(JSON.parse(localStorage.getItem("structures")));
+}
+
+function restore(structures) {
     if (structures == null)
         return;
 
@@ -48,5 +51,5 @@ function loadWorld(file) {
     localStorage.setItem("title", file.name);
     // TODO: clear();
     document.getElementById('editable-text').textContent = file.name;
-    restore();
+    localRestore();
 }

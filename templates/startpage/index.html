@@ -6,6 +6,18 @@
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     {% csrf_token %}
+    <script>
+        const planetTex = "{% static 'textures/planet.jpg' %}";
+        const skyboxTex = "{% static 'textures/skybox.jpg' %}";
+        loadedStruct = null;
+        loadedName = null;
+    </script>
+    {% if planet_data %}
+    <script>
+        loadedStruct = '{{ planet_data.structures|safe }}';
+        loadedName = '{{ planet_data.name }}';
+    </script>
+    {% endif %}
     <script src="{% static 'js/fetch.js' %}"></script>
     <script src="{% static 'js/saving.js' %}"></script>
     <script src="{% static 'js/textureManager.js' %}"></script>
@@ -34,7 +46,7 @@
         </div>
         <button id="clear">Clear</button>
 
-       <hr>
+        <hr>
 
         <label>
             Sphere Color:

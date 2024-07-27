@@ -1,7 +1,7 @@
 HTML Canvas, Three.js, and eventually database and security practice
 
 To do:
-- Add way to share worlds by URL
+- Add way to browse list of worlds
 - Add world stats
 - Make API to access world stats
 - Store data in encrypted form

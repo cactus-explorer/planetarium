@@ -2,9 +2,13 @@ function ui() {
     const editableText = document.getElementById('editable-text');
     const editForm = document.getElementById('edit-form');
     const editInput = document.getElementById('edit-input');
-
-    planetName = getName();
-    planetName = planetName ? planetName : 'Click to Name Planet';
+    
+    if (loadedName)
+        planetName = loadedName;
+    else if (getName())
+        planetName = getName();
+    else
+        planetName = 'Click to Name Planet';
 
     editableText.textContent = planetName;
 
