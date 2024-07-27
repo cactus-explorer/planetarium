@@ -19,7 +19,7 @@ def index(request, planetURL=None):
         file = json.loads(request.body.decode("utf-8"))["file"]
         name = file["name"]
         structures = file["structures"]
-        # Add check if valid step
+        # Add if valid(file): step
         savePlanet = Planet(name=name,
                             structures=structures,
                             pub_date=timezone.now())
@@ -51,3 +51,17 @@ def index(request, planetURL=None):
             print(planetDict["structures"])
             return JsonResponse(planetDict, safe=True)
             
+def pageAPI(request, pageNum=1):
+    import math
+    pageSize = 5
+
+    queryList = list(
+        Planet.objects.order_by('pub_date')
+        .values_list('name'));
+    listIntersection = queryList[(pageNum - 1) * pageSize:pageNum * pageSize];
+    length = math.ceil(len(queryList) / pageSize)
+
+    planetList = list(map(lambda x: x[0], listIntersection))
+    planetDict = { "pages": length,
+                  "list" : planetList}
+    return JsonResponse(planetDict, safe=True)

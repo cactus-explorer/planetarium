@@ -79,7 +79,7 @@ function popup() {
     const pageIndicator = document.getElementById('pageIndicator');
     const pageContent = document.getElementById('pageContent');
     let currentPage = 1;
-    const totalPages = 3;
+    totalPages = 3;
 
     function updatePageButtons() {
         prevBtn.disabled = currentPage === 1;
@@ -90,13 +90,14 @@ function popup() {
     async function fetchPageContent(pageNum) {
         pageContent.innerHTML = '<p class="loading">Loading content...</p>';
         try {
-            const response = await fetch(`https://api.example.com/page/${pageNum}`);
+            const response = await fetch(`/api/page/${pageNum}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const list = await response.json();
+            const jsonObject = await response.json();
             pageContent.innerHTML = '';
-            for (data of list) {
+            totalPages = jsonObject.pages;
+            for (data of jsonObject.list) {
                 li = document.createElement("li");
                 a = document.createElement("a");
                 a.setAttribute('href', "/" + data);
@@ -140,26 +141,4 @@ function popup() {
             fetchPageContent(currentPage);
         }
     });
-
-    // Simulated API endpoint for demonstration purposes
-    const mockApiEndpoint = 'https://api.example.com/page/';
-    const mockPages = [
-        ["Super Cool World", "Super Duper Cool World", "Placeholder"],
-        [],
-        []
-    ];
-
-    // Override fetch for demonstration
-    window.fetch = function (url) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const pageNum = parseInt(url.split('/').pop());
-                const pageData = mockPages[pageNum - 1];
-                resolve({
-                    ok: true,
-                    json: () => Promise.resolve(pageData)
-                });
-            }, 500); // Simulate network delay
-        });
-    };
 }
