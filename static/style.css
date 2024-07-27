@@ -244,3 +244,17 @@ button {
     font-style: italic;
     color: #7f8c8d;
 }
+
+a {
+    border-right: 60px solid #f44336;
+    text-decoration: none;
+    color: #2aa1c0;
+}
+
+a:after {
+    content: "Seen";
+    position: absolute;
+    padding: 0px 0px 0px 10px;
+    border-color: #fff;
+    color: #fff;
+}

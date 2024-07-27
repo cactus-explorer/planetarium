@@ -78,6 +78,8 @@ function init() {
         eraseButton.classList.add('active');
     });
 
+    clear();
+
     if (loadedStruct) {
         if (loadedStruct != "empty")
             restore(JSON.parse(loadedStruct));
@@ -201,4 +203,10 @@ function updateFollowingCube() {
     // Make the cube face away from the center
     group.lookAt(new THREE.Vector3(0, 0, 0));
     group.rotateX(-Math.PI / 2); // Rotate 180 degrees to face outward
+}
+function clear() {
+    for (var i = sphere.children.length - 1; i >= 0; i--) {
+        obj = sphere.children[i];
+        sphere.remove(obj);
+    }
 }

@@ -37,6 +37,11 @@ function ui() {
         saveWorld();
     });
 
+    const clearBut = document.getElementById('clear');
+    clearBut.addEventListener('click', () => {
+        clear();
+    });
+
     const mainButton = document.getElementById('mainButton');
     const inputContainer = document.getElementById('inputContainer');
     const textField = document.getElementById('textField');
@@ -79,7 +84,7 @@ function popup() {
     const pageIndicator = document.getElementById('pageIndicator');
     const pageContent = document.getElementById('pageContent');
     let currentPage = 1;
-    totalPages = 3;
+    totalPages = 1;
 
     function updatePageButtons() {
         prevBtn.disabled = currentPage === 1;
