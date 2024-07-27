@@ -67,5 +67,99 @@ function ui() {
             submitButton.click();
         }
     });
-}
 
+    popup()
+}
+function popup() {
+    const overlayBtn = document.getElementById('overlayBtn');
+    const overlay = document.getElementById('overlay');
+    const closeBtn = document.getElementById('closeBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    const pageContent = document.getElementById('pageContent');
+    let currentPage = 1;
+    const totalPages = 3;
+
+    function updatePageButtons() {
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+        pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
+    }
+
+    async function fetchPageContent(pageNum) {
+        pageContent.innerHTML = '<p class="loading">Loading content...</p>';
+        try {
+            const response = await fetch(`https://api.example.com/page/${pageNum}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const list = await response.json();
+            pageContent.innerHTML = '';
+            for (data of list) {
+                li = document.createElement("li");
+                a = document.createElement("a");
+                a.setAttribute('href', "/" + data);
+                a.innerHTML = (data + "\n");
+                li.append(a);
+
+                pageContent.append(li);
+            }
+        } catch (error) {
+            console.error('Error fetching page content:', error);
+            pageContent.innerHTML = '<p>Error loading content. Please try again.</p>';
+        }
+        updatePageButtons();
+    }
+
+    overlayBtn.addEventListener('click', function () {
+        overlay.style.display = 'block';
+        fetchPageContent(1);
+    });
+
+    closeBtn.addEventListener('click', function () {
+        overlay.style.display = 'none';
+    });
+
+    overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) {
+            overlay.style.display = 'none';
+        }
+    });
+
+    prevBtn.addEventListener('click', function () {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchPageContent(currentPage);
+        }
+    });
+
+    nextBtn.addEventListener('click', function () {
+        if (currentPage < totalPages) {
+            currentPage++;
+            fetchPageContent(currentPage);
+        }
+    });
+
+    // Simulated API endpoint for demonstration purposes
+    const mockApiEndpoint = 'https://api.example.com/page/';
+    const mockPages = [
+        ["Super Cool World", "Super Duper Cool World", "Placeholder"],
+        [],
+        []
+    ];
+
+    // Override fetch for demonstration
+    window.fetch = function (url) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                const pageNum = parseInt(url.split('/').pop());
+                const pageData = mockPages[pageNum - 1];
+                resolve({
+                    ok: true,
+                    json: () => Promise.resolve(pageData)
+                });
+            }, 500); // Simulate network delay
+        });
+    };
+}

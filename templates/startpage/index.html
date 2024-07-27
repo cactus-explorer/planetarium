@@ -37,14 +37,13 @@
     </div>
     <div id="optionsPanel">
         <button id="save">Save</button>
-        <div id="container">
-            <button id="mainButton">Load</button>
-            <div id="inputContainer">
-                <input type="text" id="textField" placeholder="Enter planet to load...">
-                <button id="load">Submit</button>
-            </div>
+        <button id="mainButton">Load</button>
+        <div id="inputContainer">
+            <input type="text" id="textField" placeholder="Enter planet to load...">
+            <button id="load">Submit</button>
         </div>
         <button id="clear">Clear</button>
+        <button id="overlayBtn">List of Worlds</button>
 
         <hr>
 
@@ -88,6 +87,19 @@
             <canvas id="textureCanvas" width="128" height="128"></canvas>
             <input type="color" id="texColorPicker" value="#228B22">
             <input type="range" id="brushSize" min="1" max="1000" value="100">
+        </div>
+    </div>
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <span class="close-btn" id="closeBtn">&times;</span>
+            <div id="pageContent">
+                <p class="loading">Loading content...</p>
+            </div>
+            <div class="page-nav">
+                <button id="prevBtn" disabled>Previous</button>
+                <span id="pageIndicator">Page 1 of 3</span>
+                <button id="nextBtn">Next</button>
+            </div>
         </div>
     </div>
 </body>
