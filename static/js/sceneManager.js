@@ -10,6 +10,7 @@ let raycaster = new THREE.Raycaster();
 let size = .1;
 let rotationSpeed = 1;
 
+const structureHolder = new THREE.Group();
 const group = new THREE.Group();
 
 function init() {

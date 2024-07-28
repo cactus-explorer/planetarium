@@ -1,0 +1,106 @@
+<html>
+    {% load static %}
+<head>
+    <title>Planetarium</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    {% csrf_token %}
+    <script>
+        const planetTex = "{% static 'textures/planet.jpg' %}";
+        const skyboxTex = "{% static 'textures/skybox.jpg' %}";
+        loadedStruct = null;
+        loadedName = null;
+    </script>
+    {% if planet_data %}
+    <script>
+        loadedStruct = '{{ planet_data.structures|safe }}';
+        loadedName = '{{ planet_data.name }}';
+    </script>
+    {% endif %}
+    <script src="{% static 'js/fetch.js' %}"></script>
+    <script src="{% static 'js/saving.js' %}"></script>
+    <script src="{% static 'js/textureManager.js' %}"></script>
+    <script src="{% static 'js/sceneManager.js' %}"></script>
+    <script src="{% static 'js/pixelEditor.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/ui.js' %}"></script>
+</head>
+<body>
+    <div id="info">
+        <div>Planetarium by Cole Barker</div>
+        <div id="editable-text">Click to Name Planet</div>
+        <form id="edit-form">
+            <input type="text" id="edit-input" name="text">
+            <button type="submit" id="save-button">Save</button>
+        </form>
+    </div>
+    <div id="optionsPanel">
+        <button id="save">Save</button>
+        <button id="mainButton">Load</button>
+        <div id="inputContainer">
+            <input type="text" id="textField" placeholder="Enter planet to load...">
+            <button id="load">Submit</button>
+        </div>
+        <button id="clear">Clear</button>
+        <button id="overlayBtn">List of Worlds</button>
+
+        <hr>
+
+        <label>
+            Sphere Color:
+            <input type="color" id="sphereColor" value="#ffffff" />
+        </label>
+        <label>
+            Rotation Speed:
+            <input type="range" id="rotationSpeed" min="0" max="5" step="0.1" value="1" />
+        </label>
+        <label>
+            Cube Size:
+            <input type="range" id="cubeSize" min="0.1" max="3" step="0.05" value="1" />
+        </label>
+        <br>
+        <hr>
+        <label>
+            <button class="active" id="draw">Draw</button>
+            <button id="erase">Erase</button>
+            Pixel Color:
+            <input type="color" id="colorPicker" value="#7393B3" />
+        </label>
+        <br>
+        <div style="display: flex; gap: 10px;">
+            <div>
+                <h3>Layer 1 (Front)</h3>
+                <canvas id="pixelCanvas1" width="100" height="100" style="border:1px solid #000000;"></canvas>
+            </div>
+            <div>
+                <h3>Layer 2 (Middle)</h3>
+                <canvas id="pixelCanvas2" width="100" height="100" style="border:1px solid #000000;"></canvas>
+            </div>
+            <div>
+                <h3>Layer 3 (Back)</h3>
+                <canvas id="pixelCanvas3" width="100" height="100" style="border:1px solid #000000;"></canvas>
+            </div>
+        </div>
+        <div id="texturePanel">
+            <h3 style="color: white; margin-top: 0;">Sphere Texture</h3>
+            <canvas id="textureCanvas" width="128" height="128"></canvas>
+            <input type="color" id="texColorPicker" value="#228B22">
+            <input type="range" id="brushSize" min="1" max="1000" value="100">
+        </div>
+    </div>
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <span class="close-btn" id="closeBtn">&times;</span>
+            <div id="pageContent">
+                <p class="loading">Loading content...</p>
+            </div>
+            <div class="page-nav">
+                <button id="prevBtn" disabled>Previous</button>
+                <span id="pageIndicator">Page 1 of 3</span>
+                <button id="nextBtn">Next</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -42,41 +42,10 @@ function ui() {
         clear();
     });
 
-    const mainButton = document.getElementById('mainButton');
-    const inputContainer = document.getElementById('inputContainer');
-    const textField = document.getElementById('textField');
-    const submitButton = document.getElementById('load');
-
-    mainButton.addEventListener('click', () => {
-        mainButton.style.display = 'none';
-        inputContainer.style.display = 'inline-block';
-        textField.focus();
-    });
-
-    submitButton.addEventListener('click', async () => {
-        const text = textField.value.trim();
-        if (text) {
-            textField.value = '';
-            inputContainer.style.display = 'none';
-            mainButton.style.display = 'inline-block';
-            downloadWorld(text);
-
-            
-        } else {
-            alert('Please enter some text before submitting.');
-        }
-    });
-
-    textField.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            submitButton.click();
-        }
-    });
-
     popup()
 }
 function popup() {
-    const overlayBtn = document.getElementById('overlayBtn');
+    const overlayBtn = document.getElementById('worlds');
     const overlay = document.getElementById('overlay');
     const closeBtn = document.getElementById('closeBtn');
     const prevBtn = document.getElementById('prevBtn');

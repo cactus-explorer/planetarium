@@ -1,12 +1,14 @@
 This project is Javascript, Django, Three.js, and eventually database and security practice
 
 To do:
-- Fix missing texture glitch
 - Add ability to save texture
 - Store data in encrypted form
+- Fix rotation slider
+- Add different textures
+- Restructure folder
 
 Potential Goals
-- Make painted world a layer on top of base texture
+- Restructure code
 - Add copy protection to worlds
 - Add object limit
 - Make more efficient saves

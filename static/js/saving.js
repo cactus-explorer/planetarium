@@ -23,11 +23,11 @@ function restore(structures) {
 
     for (structure of structures) {
         newObj = loader.parse(structure.group);
-        sphere.add(newObj);
+        strucHolder.add(newObj);
         newObj.position.copy(structure.coords);
         newObj.lookAt(new THREE.Vector3(0, 0, 0));
         newObj.rotateX(-Math.PI / 2);
-        newObj.translateY(.7 * size);
+        newObj.translateY(2.5 * size);
     }
 }
 
