@@ -13,17 +13,36 @@ from django.http import JsonResponse
 from datetime import *
 from django.utils import timezone
 
+import base64
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
+
+
+fs = FileSystemStorage(location="/media/usertex")
+
 
 def index(request, planetURL=None):
-    if request.method == 'POST':
-        file = json.loads(request.body.decode("utf-8"))["file"]
+    if request.method == 'POST': # Save planet
+        body = json.loads(request.body.decode("utf-8"))
+        file = body["file"]
         name = file["name"]
         structures = file["structures"]
         # Add if valid(file): step
+        
+        # Save image
+        # https://stackoverflow.com/questions/39576174/save-base64-image-in-django-file-field
+        format, imgstr  = body["image"].split(';base64,') 
+        ext = format.split('/')[-1] 
+
+        image = ContentFile(base64.b64decode(imgstr ), name='temp.' + ext)
+
         savePlanet = Planet(name=name,
                             structures=structures,
-                            pub_date=timezone.now())
+                            pub_date=timezone.now(),
+                            texture = image)
         savePlanet.save()
+
+        return HttpResponse(status=200) 
     else:
         query = request.GET.get('w')
         if (query == None):
@@ -36,6 +55,7 @@ def index(request, planetURL=None):
                 context = {
                     'planet_data': planet,
                 }
+                print(planet.texture.url)
                 return render(request, 'startpage/index.html', context)
             return render(request, 'startpage/index.html')
         else:

@@ -5,7 +5,11 @@ function saveWorld() {
         headers: {
             "X-CSRFToken": csrftoken,
         },
-        body: JSON.stringify({ file: getFile() }),
+        body: JSON.stringify(
+            {
+                file: getFile(),
+                image: spotsCanvas.toDataURL('image/png') 
+            }),
     });
     fetch(request);
 }

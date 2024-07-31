@@ -22,7 +22,7 @@ scene.add(group);
   const spotsTextureSize = 512;
   const baseCanvas = document.createElement('canvas');
   baseCanvas.width = baseCanvas.height = baseTextureSize;
-  const baseCtx = baseCanvas.getContext('2d');
+const baseCtx = baseCanvas.getContext('2d');
 
   function createCheckeredTexture() {
     
@@ -35,11 +35,23 @@ scene.add(group);
   // Create a spots texture
   const spotsCanvas = document.createElement('canvas');
   spotsCanvas.width = spotsCanvas.height = spotsTextureSize;
-  const spotsCtx = spotsCanvas.getContext('2d');
+const spotsCtx = spotsCanvas.getContext('2d', { willReadFrequently: true });
   spotsCtx.fillStyle = 'rgba(0, 0, 0, 0)';
   spotsCtx.fillRect(0, 0, spotsTextureSize, spotsTextureSize);
 
-  const spotsTexture = new THREE.CanvasTexture(spotsCanvas);
+
+const loadedTex = document.getElementById('loadedTex');
+if (loadedTex) {
+    const ctx = spotsCanvas.getContext("2d");
+    ctx.drawImage(loadedTex, 0, 0);
+}
+else if (getImg()) {
+    const ctx = spotsCanvas.getContext("2d");
+    var img = new Image();
+    img.src = getImg();
+    ctx.drawImage(img, 0, 0);
+}
+const spotsTexture = new THREE.CanvasTexture(spotsCanvas);
 
   // Create a sphere geometry and materials
   const geometry = new THREE.SphereGeometry(1, 64, 64);
@@ -171,7 +183,8 @@ if (loadedStruct) {
     }
 
     updateMenuCanvas();
-    spotsTexture.needsUpdate = true;
+      spotsTexture.needsUpdate = true;
+      saveImg(spotsCanvas);
   }
 
   function stopDrawing() {
@@ -531,3 +544,21 @@ function clear() {
 }
 
 ui();
+
+function onScroll(event) {
+    const zoomSpeed = 0.1;
+    camera.position.z += event.deltaY * zoomSpeed * 0.01;
+
+    // Clamp the camera position to avoid zooming too close or too far
+    camera.position.z = Math.max(1.5, Math.min(camera.position.z, 2));
+}
+document.addEventListener('wheel', onScroll, false);
+
+// Download spots texture
+const downloadButton = document.getElementById('downloadSpots');
+downloadButton.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.download = 'spots_texture.png';
+    link.href = spotsCanvas.toDataURL('image/png');
+    link.click();
+});

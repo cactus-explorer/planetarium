@@ -53,3 +53,14 @@ function loadWorld(file) {
     document.getElementById('editable-text').textContent = file.name;
     localRestore();
 }
+
+function saveImg(canvas) {
+    var dataURL = canvas.toDataURL("image/png");
+    replaced = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    localStorage.setItem("imgData", replaced);
+}
+
+function getImg() {
+    return "data:image/png;base64," + localStorage.getItem('imgData');
+
+}

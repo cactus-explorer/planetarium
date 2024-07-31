@@ -4,6 +4,11 @@
     <title>Planetarium</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
     {% csrf_token %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+</head>
+<body>
+    <img src="" id="tableBanner" />
     <script>
         const planetTex = "{% static 'textures/planet.jpg' %}";
         const skyboxTex = "{% static 'textures/skybox.jpg' %}";
@@ -12,14 +17,12 @@
     </script>
     {% if planet_data %}
     <script>
-        loadedStruct = '{{ planet_data.structures|safe }}';
-        loadedName = '{{ planet_data.name }}';
+    loadedStruct = '{{ planet_data.structures|safe }}';
+    loadedName = '{{ planet_data.name }}';
     </script>
+    <img id="loadedTex" src='..{{ planet_data.texture.url }}' style="display: none;" />
     {% endif %}
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-</head>
-<body>
+
     <div id="info">
         <div>Planetarium by Cole Barker</div>
         <div id="editable-text">Click to Name Planet</div>
@@ -69,6 +72,7 @@
             <label for="opacity">Opacity:</label>
             <input type="range" id="opacity" min="0" max="100" value="80">
             <button id="clearSpots">Clear</button>
+            <button id="downloadSpots">Download</button>
         </div>
         <div id="settingsPage" class="menu-page">
             <h3>Settings</h3>
