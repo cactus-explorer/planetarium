@@ -1,15 +1,29 @@
-This project is Javascript, Django, Three.js, and eventually database and security practice
+This project is Javascript, Django, Three.js, and database practice
 
-To do:
-- Store data in encrypted form
-- Fix rotation slider
-- Add different textures
+Game Features:
+- HTML 3D enviroment
+- Customizable planets
+- Placable structures
+- Paintable planet surface
 
-Potential Goals
+Technical Features
+- Saving to the cloud
+- Browsing other's creations saved to the cloud
+- Webserver
+- Dynamically served webpages
+- SQLite database
+- Conversion of user data to strings
+- File uploads and serving
+- Use of fetch API
+- Only Three.js, no JQuery
+
+If I were to come back to this project I would add:
+- Auto-deletion of old elements
 - Restructure code and folder
-- Add copy protection to worlds
-- Add object limit
-- Make more efficient saves
-- Add accounts
-- Double check files are within parameters before saving
-- Exception Management?
+- Copy protection to worlds
+- Object limits
+- More efficient saves
+- Accounts
+- Double checking files are within parameters before saving
+- Exception Management
+- Account mannagement

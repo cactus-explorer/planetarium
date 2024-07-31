@@ -62,5 +62,10 @@ function saveImg(canvas) {
 
 function getImg() {
     return "data:image/png;base64," + localStorage.getItem('imgData');
-
+}
+function saveSurface(value) {
+    localStorage.setItem("surface", value);
+}
+function getSurface() {
+    return localStorage.getItem("surface");
 }

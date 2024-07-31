@@ -27,6 +27,7 @@ def index(request, planetURL=None):
         file = body["file"]
         name = file["name"]
         structures = file["structures"]
+        structures = file["surface"]
         # Add if valid(file): step
         
         # Save image
@@ -39,7 +40,8 @@ def index(request, planetURL=None):
         savePlanet = Planet(name=name,
                             structures=structures,
                             pub_date=timezone.now(),
-                            texture = image)
+                            texture = image,
+                            surface=surface)
         savePlanet.save()
 
         return HttpResponse(status=200) 

@@ -8,7 +8,8 @@ function saveWorld() {
         body: JSON.stringify(
             {
                 file: getFile(),
-                image: spotsCanvas.toDataURL('image/png') 
+                image: spotsCanvas.toDataURL('image/png') ,
+                surface: getSurface()
             }),
     });
     fetch(request);

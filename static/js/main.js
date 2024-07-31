@@ -24,14 +24,6 @@ scene.add(group);
   baseCanvas.width = baseCanvas.height = baseTextureSize;
 const baseCtx = baseCanvas.getContext('2d');
 
-  function createCheckeredTexture() {
-    
-  }
-
-  function createStripedTexture() {
-    
-  }
-
   // Create a spots texture
   const spotsCanvas = document.createElement('canvas');
   spotsCanvas.width = spotsCanvas.height = spotsTextureSize;
@@ -52,6 +44,8 @@ else if (getImg()) {
     ctx.drawImage(img, 0, 0);
 }
 const spotsTexture = new THREE.CanvasTexture(spotsCanvas);
+spotsTexture.needsUpdate = true;
+saveImg(spotsCanvas);
 
   // Create a sphere geometry and materials
   const geometry = new THREE.SphereGeometry(1, 64, 64);
@@ -97,6 +91,18 @@ if (loadedStruct) {
 } else
     localRestore();
 
+// Load saved surface value
+if (loadedSurface) {
+    baseMaterial.map = new THREE.TextureLoader()
+        .load(texDir + "/planet" + loadedSurface + ".jpg");
+    baseMaterial.needsUpdate = true;
+}
+else if (getSurface()) {
+    baseMaterial.map = new THREE.TextureLoader()
+        .load(texDir + "/planet" + getSurface() + ".jpg");
+    baseMaterial.needsUpdate = true;
+}
+
   animate();
 
 
@@ -123,7 +129,7 @@ if (loadedStruct) {
   const toggleButton = document.getElementById('toggleSpots');
   toggleButton.addEventListener('click', () => {
     spotsSphere.visible = !spotsSphere.visible;
-    toggleButton.textContent = spotsSphere.visible ? 'Hide Spots' : 'Show Spots';
+    toggleButton.textContent = spotsSphere.visible ? 'Hide Paint' : 'Show Paint';
   });
 
   // Clear spots
@@ -219,15 +225,13 @@ if (loadedStruct) {
     } : null;
   }
 
-  // Texture switching functionality
+// Texture switching functionality
   const textureSelect = document.getElementById('textureSelect');
-  textureSelect.addEventListener('change', (e) => {
-    if (e.target.value === 'checkered') {
-      createCheckeredTexture();
-    } else if (e.target.value === 'striped') {
-      createStripedTexture();
-    }
-    baseTexture.needsUpdate = true;
+  textureSelect.addEventListener('input', (e) => {
+    baseMaterial.map = new THREE.TextureLoader()
+        .load(texDir + "/planet" + parseFloat(e.target.value) + ".jpg");
+      baseMaterial.needsUpdate = true;
+      saveSurface(parseFloat(e.target.value));
   });
 
   // Menu tabs functionality
@@ -370,7 +374,7 @@ pixelArtCanvases.forEach(canvas => {
     }
 });
 
-let currentPixelColor = '#000000';
+let currentPixelColor = '#7393B3';
 let currentPixelTool = 'paint';
 
 const pixelColorPicker = document.getElementById('pixelColorPicker');

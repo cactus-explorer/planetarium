@@ -1,6 +1,8 @@
-<html>
+<!DOCTYPE html>
 <head>
     {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <title>Planetarium</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}">
     {% csrf_token %}
@@ -8,17 +10,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 </head>
 <body>
-    <img src="" id="tableBanner" />
     <script>
-        const planetTex = "{% static 'textures/planet.jpg' %}";
+        const planetTex = "{% static 'textures/planet1.jpg' %}";
         const skyboxTex = "{% static 'textures/skybox.jpg' %}";
+        const texDir = "{% static 'textures' %}";
+        numPlanetTex = 3;
+
         loadedStruct = null;
         loadedName = null;
+        loadedSurface = null;
     </script>
     {% if planet_data %}
     <script>
     loadedStruct = '{{ planet_data.structures|safe }}';
-    loadedName = '{{ planet_data.name }}';
+        loadedName = '{{ planet_data.name }}';
+        loadedSurface = '{{ planet_data.surface }}';
     </script>
     <img id="loadedTex" src='..{{ planet_data.texture.url }}' style="display: none;" />
     {% endif %}
@@ -40,7 +46,6 @@
         </div>
         <div id="pixelArtPage" class="menu-page active">
             <h3>Structure Builder</h3>
-            <!--<div id="pixelArtBackground"></div>-->
             <div id="pixelArtCanvas1" class="pixel-art-canvas"></div>
             <div id="pixelArtCanvas2" class="pixel-art-canvas"></div>
             <div id="pixelArtCanvas3" class="pixel-art-canvas"></div>
@@ -49,8 +54,7 @@
                 <button id="pixelEraseTool">Erase</button>
             </div>
             <label for="pixelColorPicker">Pixel Color:</label>
-            <input type="color" id="pixelColorPicker" value="#000000">
-            <button id="applyPixelArt">Apply to Sphere</button>
+            <input type="color" id="pixelColorPicker" value="#7393B3">
             <button id="clearPixelArt">Clear Pixel Art</button>
             <button id="clear">Clear Structures</button>
         </div>
@@ -66,7 +70,7 @@
                 <button id="redoButton">Redo</button>
             </div>
             <label for="colorPicker">Color:</label>
-            <input type="color" id="colorPicker" value="#ffffff">
+            <input type="color" id="colorPicker" value="#3cb56a">
             <label for="brushSize">Brush Size:</label>
             <input type="range" id="brushSize" min="1" max="50" value="10">
             <label for="opacity">Opacity:</label>
@@ -76,13 +80,12 @@
         </div>
         <div id="settingsPage" class="menu-page">
             <h3>Settings</h3>
-            <button id="toggleSpots">Hide Spots</button>
-            <label for="rotationSpeed">Rotation Speed:</label>
-            <input type="range" id="rotationSpeed" min="0" max="0.1" step="0.001" value="0">
-            <select id="textureSelect">
-                <option value="checkered">Checkered</option>
-                <option value="striped">Striped</option>
-            </select>
+            <button id="toggleSpots">Hide Paint</button>
+            <label for="rotationSpeed">Speed:</label>
+            <input type="range" id="rotationSpeed" min="0" max="2" step=".25" value="1" />
+            <br />
+            <label for="textureSelect">Surface:</label>
+            <input type="range" id="textureSelect" min="1" max="3" step="1" value="1" />
         </div>
         <div id="extrasPage" class="menu-page">
             <h3>Worlds</h3>
@@ -108,4 +111,4 @@
     <script src="{% static 'js/ui.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
 </body>
-</html>
+</!DOCTYPEhtml>
